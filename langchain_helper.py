@@ -17,7 +17,7 @@ vectordb_file_path = "faiss_index"
 
 def create_vector_db():
     # Load data from FAQ sheet
-    loader = CSVLoader(file_path='codebasics_faqs.csv', source_column="prompt")
+    loader = CSVLoader(file_path='edtech_faqs.csv', source_column="prompt")
     data = loader.load()
 
     # Create a FAISS instance for vector database from 'data'
@@ -25,12 +25,12 @@ def create_vector_db():
                                     embedding=instructor_embeddings)
 
     # Save vector database locally
-    vectordb.save_local(vectordb_file_path)
+    vectordb.save_local("/faiss_index")
 
 
 def get_qa_chain():
     # Load the vector database from the local folder
-    vectordb = FAISS.load_local(vectordb_file_path, instructor_embeddings)
+    vectordb = FAISS.load_local("/faiss_index", instructor_embeddings)
 
     # Create a retriever for querying the vector database
     retriever = vectordb.as_retriever(score_threshold=0.7)
